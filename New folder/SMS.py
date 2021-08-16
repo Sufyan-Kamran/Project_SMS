@@ -40,6 +40,10 @@ def empty():
 def loginPage():
     frame = Frame(root2,width=1400, height=800,)
     frame.place(x=0,y=0)
+    fk = Frame(frame,width=1400,height=70,bg="gray4")
+    fk.place(x=0,y=0)    
+    HistL = Label(frame,text="Products",font=("calibri",18,"bold"),fg="gray4")
+    HistL.place(x=10,y=80)
     con4 = pymysql.connect(host="localhost", user="root", password="", database="employee" )
     cur4 = con4.cursor()
     cur4.execute("select * from products")
@@ -62,7 +66,7 @@ def loginPage():
     treeview3.heading('P_Name', text='P_Name', anchor=CENTER)
     treeview3.heading('Price', text='Price' ,anchor=CENTER)
     treeview3.heading('Category', text='Category' ,anchor=CENTER)    
-    treeview3.place(x=10,y=100,width=650,height=400)
+    treeview3.place(x=10,y=120,width=650,height=400)
     i = 0
     for ro in row4:
         treeview3.insert('',i, text="", values=(ro[0],ro[1],ro[2],ro[3],ro[4],ro[5]))
@@ -75,7 +79,8 @@ def loginPage():
 ###########################################################################################################
 ###########################################################################################################
 ###########################################################################################################
-    
+    ItemsL = Label(frame,text="History",font=("calibri",18,"bold"),fg="gray4")
+    ItemsL.place(x=670,y=80)
     con5 = pymysql.connect(host="localhost", user="root", password="", database="employee" )
     cur5 = con5.cursor()
     cur5.execute("select * from orders where name=%s and email=%s",(row[1],row[3]))
@@ -88,11 +93,11 @@ def loginPage():
     s.configure(".", font=('times new roman', 11))
     s.configure("treeview4.Heading", foreground="BLUE", font=("times new roman", 14, "bold"))
     #adding columns
-    treeview4.column('Id', width=1, minwidth=1,anchor=tk.CENTER)
-    treeview4.column('Name', width=10, minwidth=10,anchor=tk.CENTER)
+    treeview4.column('Id', minwidth=1,anchor=tk.CENTER, stretch=NO, width=50)
+    treeview4.column('Name',  minwidth=10,anchor=tk.CENTER, stretch=NO, width=130)
     treeview4.column('Product', width=10, minwidth=10,anchor=tk.CENTER)
-    treeview4.column('Qty', width=10, minwidth=10,anchor=tk.CENTER)
-    treeview4.column('Bill', width=10, minwidth=10,anchor=tk.CENTER)
+    treeview4.column('Qty', minwidth=10,anchor=tk.CENTER, stretch=NO, width=50)
+    treeview4.column('Bill', minwidth=10,anchor=tk.CENTER, stretch=NO, width=80)
     treeview4.column('Date', width=10, minwidth=10,anchor=tk.CENTER) 
     #adding heading
     treeview4.heading('Id', text='Id', anchor=CENTER)
@@ -101,7 +106,7 @@ def loginPage():
     treeview4.heading('Qty', text='Qty' ,anchor=CENTER)
     treeview4.heading('Bill', text='Bill' ,anchor=CENTER)
     treeview4.heading('Date', text='Date' ,anchor=CENTER)    
-    treeview4.place(x=670,y=100,width=650,height=400)        
+    treeview4.place(x=670,y=120,width=700,height=400)        
     i = 0
     for ro in row5:
         treeview4.insert('',i, text="", values=(ro[0],ro[1],ro[4],ro[5],ro[6],ro[7]))
@@ -112,7 +117,10 @@ def loginPage():
     hsb.pack(fill=Y,side=RIGHT)
 
 ###################################### LABELS  ###########################################################
-
+    div = Frame(frame,bg="gray4",height=5,width=1400)
+    div.place(x=0,y=530)
+    userlabe = Label(frame, text="Order Detail",fg = "Green",font=("times new roman", 23))
+    userlabe.place(x=10,y=536)
     idlabe = Label(frame, text="Id : ",fg = "red",font=("times new roman", 15))
     idlabe.place(x=10,y=600)
     Namelabe = Label(frame, text="Name : ",fg="red",font=("times new roman", 15))
@@ -200,8 +208,6 @@ def loginPage():
             messagebox.showinfo("New Product", "New product added successfully")
             btn1["state"] = "disable"
         enk.delete(0,END)
-    Serac = Entry(frame)
-    Serac.place(x=1050,y=70)
     def Logout():
         messagebox.showinfo("Logout", "Thanks for using our app.")
         frame.destroy()
@@ -234,17 +240,29 @@ def loginPage():
                     i = i+1
         except Exception as e:
             print(e)
-    fk = Frame(frame,width=1400,height=70,bg="deep sky blue")
-    fk.place(x=0,y=0)
-    l = Label(fk, text="", font=("times new romans",18,"bold"),bg="deep sky blue",fg="White")
+    
+    image2 = Image.open("Buttonimages/loogo3.png")
+    image2 = image2.resize((50,50), Image.ANTIALIAS) 
+    test = ImageTk.PhotoImage(image2)
+    canvas = tk.Label(fk,bg="gray4",fg="red",image=test)
+    canvas.image = test
+    canvas.place(x=30,y=10)
+    s = Label(fk, text="Stationary", font=("times new romans",12,"bold"),bg="gray4",fg="White")
+    s.place(x=100,y=2)
+    ks = Label(fk, text="Management", font=("times new romans",12,"bold"),bg="gray4",fg="White")
+    ks.place(x=100,y=24)
+    ss = Label(fk, text="System", font=("times new romans",12,"bold"),bg="gray4",fg="White")
+    ss.place(x=100,y=44)
+    l = Label(fk, text="", font=("times new romans",18,"bold"),bg="gray4",fg="Red")
     l.place(x=600,y=20)
     l["text"] = "Welcome " + row[1]
-    logbtn = Button(frame,text="Logout",bg="red",fg="white", command=Logout)
-    logbtn.place(x=1000,y=70)
-    btn = Button(frame,text="Search",image="button.png", command=Search,bg="bisque",fg="white",font=("times new roman",12,"bold"))
-    btn.place(x=1150,y=70)
-    photo1 = PhotoImage(file = "button.png")
-    btn = Button(frame,text="Select",image=photo1, command=hello,font=("times new roman",12,"bold"))
+    Serac = Entry(fk, font=("times new romans",14,"bold"))
+    Serac.place(x=1000,y=20,width=150)
+    logbtn = Button(fk,text="Logout",bg="red",fg="white", command=Logout)
+    logbtn.place(x=1300,y=20,width=70)
+    btn = Button(fk,text="Search",bg="white",fg="gray4",command=Search)
+    btn.place(x=1200,y=20,width=70)
+    btn = Button(frame,text="Select", command=hello,font=("times new roman",12,"bold"))
     btn.place(x=950,y=700)
     btn1 = Button(frame,state="disable",text="order",font=("times new roman",12,"bold"), command=new)
     btn1.place(x=1050,y=700)
